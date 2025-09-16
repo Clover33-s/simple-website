@@ -11,7 +11,7 @@ body, html {
 .app-container {
     height: 100vh;
     width: 100vw;
-    max-width: 480px; /* Typical mobile screen width */
+    max-width: 600px; /* Increased for a wider view */
     margin: 0 auto;
     border: 1px solid #333;
     position: relative;
@@ -25,6 +25,11 @@ body, html {
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     -webkit-overflow-scrolling: touch; /* for smooth scrolling on mobile */
+    scrollbar-width: none; /* For Firefox */
+}
+
+.video-container::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
 }
 
 .video-player {
@@ -102,6 +107,28 @@ body, html {
     background-color: #222;
     animation: spin 4s linear infinite;
     margin-top: 20px;
+}
+
+.nav-arrows {
+    position: absolute;
+    right: 80px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-arrow {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 40px;
+    transition: color 0.3s ease;
+    margin: 10px 0;
+}
+
+.nav-arrow:hover {
+    color: white;
 }
 
 @keyframes spin {

@@ -3,28 +3,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const videos = [
         {
-            url: 'https://assets.mixkit.co/videos/preview/mixkit-a-girl-blowing-a-bubble-gum-at-an-amusement-park-4533-large.mp4',
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
             author: '@jules',
-            description: 'Having fun at the park! #fun #bubblegum',
+            description: 'Big Buck Bunny! #blender #animation',
             song: 'Upbeat Funky Pop',
             likes: '1.2M',
             comments: '45.3K',
             shares: '22.1K'
         },
         {
-            url: 'https://assets.mixkit.co/videos/preview/mixkit-mother-with-her-little-daughter-eating-a-marshmallow-in-nature-4576-large.mp4',
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
             author: '@jane_doe',
-            description: 'Sweet treats with my sweetie pie! #family #marshmallow',
+            description: 'Elephants Dream! #blender #animation',
             song: 'Acoustic Folk',
             likes: '876K',
             comments: '12.2K',
             shares: '5.6K'
         },
         {
-            url: 'https://assets.mixkit.co/videos/preview/mixkit-girl-in-a-leather-jacket-and-a-hat-with-a-coffee-to-go-4530-large.mp4',
-            author: '@coffee_lover',
-            description: 'Coffee is life! #coffee #citylife',
-            song: 'Chill Lo-fi Hip Hop',
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+            author: '@google',
+            description: 'For Bigger Blazes! #google #chromecast',
+            song: 'Cinematic',
             likes: '2.3M',
             comments: '67.8K',
             shares: '33.4K'
@@ -73,6 +73,23 @@ document.addEventListener('DOMContentLoaded', () => {
         videoPlayer.appendChild(videoInfo);
         videoPlayer.appendChild(videoSidebar);
         videoContainer.appendChild(videoPlayer);
+
+        // Add event listeners for sidebar icons
+        const likeBtn = videoSidebar.querySelector('.fa-heart');
+        const commentBtn = videoSidebar.querySelector('.fa-comment-dots');
+        const shareBtn = videoSidebar.querySelector('.fa-share');
+
+        likeBtn.parentElement.addEventListener('click', () => {
+            alert('Liked!');
+        });
+
+        commentBtn.parentElement.addEventListener('click', () => {
+            alert('Commented!');
+        });
+
+        shareBtn.parentElement.addEventListener('click', () => {
+            alert('Shared!');
+        });
     });
 
     const observerOptions = {
@@ -97,4 +114,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const videoPlayers = document.querySelectorAll('.video-player');
     videoPlayers.forEach(player => observer.observe(player));
+
+    // Add navigation arrows
+    const appContainer = document.querySelector('.app-container');
+    const navArrows = document.createElement('div');
+    navArrows.classList.add('nav-arrows');
+
+    const arrowUp = document.createElement('i');
+    arrowUp.classList.add('fas', 'fa-chevron-up', 'nav-arrow');
+    arrowUp.id = 'arrow-up';
+
+    const arrowDown = document.createElement('i');
+    arrowDown.classList.add('fas', 'fa-chevron-down', 'nav-arrow');
+    arrowDown.id = 'arrow-down';
+
+    navArrows.appendChild(arrowUp);
+    navArrows.appendChild(arrowDown);
+    appContainer.appendChild(navArrows);
+
+    arrowUp.addEventListener('click', () => {
+        const currentScroll = videoContainer.scrollTop;
+        const videoHeight = videoContainer.clientHeight;
+        videoContainer.scrollTo({
+            top: currentScroll - videoHeight,
+            behavior: 'smooth'
+        });
+    });
+
+    arrowDown.addEventListener('click', () => {
+        const currentScroll = videoContainer.scrollTop;
+        const videoHeight = videoContainer.clientHeight;
+        videoContainer.scrollTo({
+            top: currentScroll + videoHeight,
+            behavior: 'smooth'
+        });
+    });
 });

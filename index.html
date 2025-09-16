@@ -3,107 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Clone</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Basic Web Application</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body>
-    <div class="app-container">
-        <div class="page active" id="home">
-            <div class="video-container">
-                <!-- Videos will be dynamically inserted here -->
-            </div>
-        </div>
-        <div class="page" id="friends" style="display: none;">
-            <!-- Friends page content will go here -->
-            <h1 style="color: white; text-align: center;">Friends Page</h1>
-        </div>
-        <div class="page" id="inbox" style="display: none; color: white; padding: 20px;">
-            <h1 style="text-align: center;">Inbox</h1>
-            <div class="conversation-list">
-                <div class="conversation">
-                    <img src="https://via.placeholder.com/50" alt="User Avatar">
-                    <div class="conversation-details">
-                        <div class="conversation-user">@jane_doe</div>
-                        <div class="conversation-message">You: Sweet treats with my sweetie pie!</div>
-                    </div>
-                    <div class="conversation-time">1h</div>
-                </div>
-                <div class="conversation">
-                    <img src="https://via.placeholder.com/50" alt="User Avatar">
-                    <div class="conversation-details">
-                        <div class="conversation-user">@coffee_lover</div>
-                        <div class="conversation-message">You: Coffee is life!</div>
-                    </div>
-                    <div class="conversation-time">3h</div>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- App container -->
+    <div class="flex flex-col min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-gray-900">My Awesome App</h1>
+                    <nav>
+                        <a href="#" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="#" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </nav>
                 </div>
             </div>
-        </div>
-        <div class="page" id="profile" style="display: none; color: white; padding: 20px;">
-            <div class="profile-header">
-                <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
-                <div class="profile-stats">
-                    <div class="stat">
-                        <strong>123</strong>
-                        <span>Following</span>
-                    </div>
-                    <div class="stat">
-                        <strong>456K</strong>
-                        <span>Followers</span>
-                    </div>
-                    <div class="stat">
-                        <strong>7.8M</strong>
-                        <span>Likes</span>
-                    </div>
-                </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto p-8 text-center">
+            <div class="bg-white p-12 rounded-lg shadow-lg">
+                <h2 class="text-4xl font-bold mb-4">Welcome to Your New Application!</h2>
+                <p class="text-gray-600 text-lg mb-8">
+                    This is a clean, responsive starting point. You can easily build upon this foundation.
+                </p>
+                <button id="cta-button" class="bg-indigo-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 transition duration-300">
+                    Get Started
+                </button>
+                <p id="message" class="mt-6 text-green-600 font-medium"></p>
             </div>
-            <div class="profile-info">
-                <h2>@jules_the_dev</h2>
-                <p>Building a TikTok clone! 🤖</p>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white mt-auto">
+            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+                <p>&copy; 2025 My Awesome App. All rights reserved.</p>
             </div>
-            <div class="profile-videos">
-                <div class="video-thumbnail">
-                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
-                </div>
-                <div class="video-thumbnail">
-                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
-                </div>
-                <div class="video-thumbnail">
-                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
-                </div>
-                <div class="video-thumbnail">
-                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
-                </div>
-                <div class="video-thumbnail">
-                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
-                </div>
-                <div class="video-thumbnail">
-                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
-                </div>
-            </div>
-        </div>
-        <div class="navigation-bar">
-            <a href="#" class="nav-item active" data-page="home">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
-            <a href="#" class="nav-item" data-page="friends">
-                <i class="fas fa-user-friends"></i>
-                <span>Friends</span>
-            </a>
-            <a href="#" class="nav-item-create">
-                <i class="fas fa-plus"></i>
-            </a>
-            <a href="#" class="nav-item" data-page="inbox">
-                <i class="fas fa-inbox"></i>
-                <span>Inbox</span>
-            </a>
-            <a href="#" class="nav-item" data-page="profile">
-                <i class="fas fa-user"></i>
-                <span>Profile</span>
-            </a>
-        </div>
+        </footer>
+
     </div>
-    <script src="script.js"></script>
+
+    <!-- Simple JavaScript for interactivity -->
+    <script>
+        const ctaButton = document.getElementById('cta-button');
+        const message = document.getElementById('message');
+
+        ctaButton.addEventListener('click', () => {
+            message.textContent = 'Great! Thanks for clicking. You can now start adding features.';
+            setTimeout(() => {
+                message.textContent = '';
+            }, 5000);
+        });
+    </script>
+
 </body>
 </html>

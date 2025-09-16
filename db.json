@@ -1,0 +1,31 @@
+{
+  "videos": [
+    {
+      "url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "author": "@jules",
+      "description": "Big Buck Bunny! #blender #animation",
+      "song": "Upbeat Funky Pop",
+      "likes": "1.2M",
+      "comments": "45.3K",
+      "shares": "22.1K"
+    },
+    {
+      "url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "author": "@jane_doe",
+      "description": "Elephants Dream! #blender #animation",
+      "song": "Acoustic Folk",
+      "likes": "876K",
+      "comments": "12.2K",
+      "shares": "5.6K"
+    },
+    {
+      "url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "author": "@google",
+      "description": "For Bigger Blazes! #google #chromecast",
+      "song": "Cinematic",
+      "likes": "2.3M",
+      "comments": "67.8K",
+      "shares": "33.4K"
+    }
+  ]
+}

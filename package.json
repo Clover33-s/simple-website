@@ -1,0 +1,14 @@
+{
+  "name": "tiktok-clone-backend",
+  "version": "1.0.0",
+  "description": "Backend for the TikTok clone",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "lowdb": "^7.0.1"
+  }
+}

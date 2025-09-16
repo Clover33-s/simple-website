@@ -1,44 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const videoContainer = document.querySelector('.video-container');
 
-    const videos = [
-        {
-            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-            author: '@jules',
-            description: 'Big Buck Bunny! #blender #animation',
-            song: 'Upbeat Funky Pop',
-            likes: '1.2M',
-            comments: '45.3K',
-            shares: '22.1K'
-        },
-        {
-            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-            author: '@jane_doe',
-            description: 'Elephants Dream! #blender #animation',
-            song: 'Acoustic Folk',
-            likes: '876K',
-            comments: '12.2K',
-            shares: '5.6K'
-        },
-        {
-            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-            author: '@google',
-            description: 'For Bigger Blazes! #google #chromecast',
-            song: 'Cinematic',
-            likes: '2.3M',
-            comments: '67.8K',
-            shares: '33.4K'
-        }
-    ];
-
-    videos.forEach(videoData => {
+    function createVideoPlayer(videoData) {
         const videoPlayer = document.createElement('div');
         videoPlayer.classList.add('video-player');
 
         const videoElement = document.createElement('video');
         videoElement.src = videoData.url;
         videoElement.loop = true;
-        videoElement.muted = true; // Muted by default to allow autoplay in most browsers
+        videoElement.muted = true;
 
         const videoInfo = document.createElement('div');
         videoInfo.classList.add('video-info');
@@ -74,46 +44,51 @@ document.addEventListener('DOMContentLoaded', () => {
         videoPlayer.appendChild(videoSidebar);
         videoContainer.appendChild(videoPlayer);
 
-        // Add event listeners for sidebar icons
         const likeBtn = videoSidebar.querySelector('.fa-heart');
         const commentBtn = videoSidebar.querySelector('.fa-comment-dots');
         const shareBtn = videoSidebar.querySelector('.fa-share');
 
-        likeBtn.parentElement.addEventListener('click', () => {
-            alert('Liked!');
-        });
+        likeBtn.parentElement.addEventListener('click', () => alert('Liked!'));
+        commentBtn.parentElement.addEventListener('click', () => alert('Commented!'));
+        shareBtn.parentElement.addEventListener('click', () => alert('Shared!'));
+    }
 
-        commentBtn.parentElement.addEventListener('click', () => {
-            alert('Commented!');
-        });
+    async function loadVideos() {
+        try {
+            const response = await fetch('/api/videos');
+            const videos = await response.json();
+            videos.forEach(createVideoPlayer);
+            setupIntersectionObserver();
+        } catch (error) {
+            console.error('Error loading videos:', error);
+        }
+    }
 
-        shareBtn.parentElement.addEventListener('click', () => {
-            alert('Shared!');
-        });
-    });
+    function setupIntersectionObserver() {
+        const observerOptions = {
+            root: videoContainer,
+            rootMargin: '0px',
+            threshold: 0.8
+        };
 
-    const observerOptions = {
-        root: videoContainer,
-        rootMargin: '0px',
-        threshold: 0.8
-    };
+        const handleIntersection = (entries, observer) => {
+            entries.forEach(entry => {
+                const video = entry.target.querySelector('video');
+                if (entry.isIntersecting) {
+                    video.play().catch(error => console.log("Autoplay was prevented: ", error));
+                } else {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+            });
+        };
 
-    const handleIntersection = (entries, observer) => {
-        entries.forEach(entry => {
-            const video = entry.target.querySelector('video');
-            if (entry.isIntersecting) {
-                video.play().catch(error => console.log("Autoplay was prevented: ", error));
-            } else {
-                video.pause();
-                video.currentTime = 0;
-            }
-        });
-    };
+        const observer = new IntersectionObserver(handleIntersection, observerOptions);
+        const videoPlayers = document.querySelectorAll('.video-player');
+        videoPlayers.forEach(player => observer.observe(player));
+    }
 
-    const observer = new IntersectionObserver(handleIntersection, observerOptions);
-
-    const videoPlayers = document.querySelectorAll('.video-player');
-    videoPlayers.forEach(player => observer.observe(player));
+    loadVideos();
 
     // Add navigation arrows
     const appContainer = document.querySelector('.app-container');

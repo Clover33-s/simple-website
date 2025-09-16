@@ -149,4 +149,34 @@ document.addEventListener('DOMContentLoaded', () => {
             behavior: 'smooth'
         });
     });
+
+    // Page navigation
+    const navItems = document.querySelectorAll('.nav-item');
+    const pages = document.querySelectorAll('.page');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const targetPage = item.getAttribute('data-page');
+
+            pages.forEach(page => {
+                if (page.id === targetPage) {
+                    page.style.display = 'block';
+                } else {
+                    page.style.display = 'none';
+                }
+            });
+
+            const navArrows = document.querySelector('.nav-arrows');
+            if (targetPage === 'home') {
+                navArrows.style.display = 'flex';
+            } else {
+                navArrows.style.display = 'none';
+            }
+
+            navItems.forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+        });
+    });
 });

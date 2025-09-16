@@ -9,8 +9,99 @@
 </head>
 <body>
     <div class="app-container">
-        <div class="video-container">
-            <!-- Videos will be dynamically inserted here -->
+        <div class="page active" id="home">
+            <div class="video-container">
+                <!-- Videos will be dynamically inserted here -->
+            </div>
+        </div>
+        <div class="page" id="friends" style="display: none;">
+            <!-- Friends page content will go here -->
+            <h1 style="color: white; text-align: center;">Friends Page</h1>
+        </div>
+        <div class="page" id="inbox" style="display: none; color: white; padding: 20px;">
+            <h1 style="text-align: center;">Inbox</h1>
+            <div class="conversation-list">
+                <div class="conversation">
+                    <img src="https://via.placeholder.com/50" alt="User Avatar">
+                    <div class="conversation-details">
+                        <div class="conversation-user">@jane_doe</div>
+                        <div class="conversation-message">You: Sweet treats with my sweetie pie!</div>
+                    </div>
+                    <div class="conversation-time">1h</div>
+                </div>
+                <div class="conversation">
+                    <img src="https://via.placeholder.com/50" alt="User Avatar">
+                    <div class="conversation-details">
+                        <div class="conversation-user">@coffee_lover</div>
+                        <div class="conversation-message">You: Coffee is life!</div>
+                    </div>
+                    <div class="conversation-time">3h</div>
+                </div>
+            </div>
+        </div>
+        <div class="page" id="profile" style="display: none; color: white; padding: 20px;">
+            <div class="profile-header">
+                <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
+                <div class="profile-stats">
+                    <div class="stat">
+                        <strong>123</strong>
+                        <span>Following</span>
+                    </div>
+                    <div class="stat">
+                        <strong>456K</strong>
+                        <span>Followers</span>
+                    </div>
+                    <div class="stat">
+                        <strong>7.8M</strong>
+                        <span>Likes</span>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-info">
+                <h2>@jules_the_dev</h2>
+                <p>Building a TikTok clone! 🤖</p>
+            </div>
+            <div class="profile-videos">
+                <div class="video-thumbnail">
+                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
+                </div>
+                <div class="video-thumbnail">
+                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
+                </div>
+                <div class="video-thumbnail">
+                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
+                </div>
+                <div class="video-thumbnail">
+                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
+                </div>
+                <div class="video-thumbnail">
+                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
+                </div>
+                <div class="video-thumbnail">
+                    <img src="https://via.placeholder.com/150" alt="Video Thumbnail">
+                </div>
+            </div>
+        </div>
+        <div class="navigation-bar">
+            <a href="#" class="nav-item active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item" data-page="friends">
+                <i class="fas fa-user-friends"></i>
+                <span>Friends</span>
+            </a>
+            <a href="#" class="nav-item-create">
+                <i class="fas fa-plus"></i>
+            </a>
+            <a href="#" class="nav-item" data-page="inbox">
+                <i class="fas fa-inbox"></i>
+                <span>Inbox</span>
+            </a>
+            <a href="#" class="nav-item" data-page="profile">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
         </div>
     </div>
     <script src="script.js"></script>

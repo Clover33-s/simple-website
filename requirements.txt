@@ -6,3 +6,4 @@ google-auth-oauthlib
 requests
 stability-sdk
 openai
+Pillow==9.5.0

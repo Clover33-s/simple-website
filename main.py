@@ -1,38 +1,43 @@
 import json
 import os
+from src.logger import log
 from src.scrapers.reddit_scraper import RedditScraper
 from src.scrapers.tiktok_scraper import TikTokScraper
 from src.video.compiler import VideoCompiler
 from src.youtube.uploader import YouTubeUploader
 
 def main():
-    print("Starting Content Grinder...")
+    log.info("Starting Content Grinder...")
 
-    with open('config.json') as f:
-        config = json.load(f)
+    try:
+        with open('config.json') as f:
+            config = json.load(f)
+    except FileNotFoundError:
+        log.error("Configuration file 'config.json' not found. Please ensure it exists.")
+        return
 
     media_urls = []
 
     # Scrape from Reddit if enabled
     if config.get('reddit', {}).get('enabled', False):
-        print("Reddit scraping is enabled.")
+        log.info("Reddit scraping is enabled.")
         reddit_scraper = RedditScraper()
         media_urls.extend(reddit_scraper.get_media())
 
     # Scrape from TikTok if enabled
     if config.get('tiktok', {}).get('enabled', False):
-        print("TikTok scraping is enabled.")
+        log.info("TikTok scraping is enabled.")
         tiktok_scraper = TikTokScraper()
         media_urls.extend(tiktok_scraper.get_media())
 
     if media_urls:
-        print(f"Successfully fetched a total of {len(media_urls)} media items. Starting video compilation...")
+        log.info(f"Successfully fetched a total of {len(media_urls)} media items. Starting video compilation...")
         output_video_path = "final_video.mp4"
         compiler = VideoCompiler(media_urls)
         compiler.create_compilation(output_path=output_video_path)
 
         if os.path.exists(output_video_path):
-            print("Video compiled successfully. Proceeding to upload...")
+            log.info("Video compiled successfully. Proceeding to upload...")
             uploader = YouTubeUploader()
             # Basic metadata - can be improved later
             video_title = "Awesome Content Compilation"
@@ -42,14 +47,17 @@ def main():
             uploader.upload_video(output_video_path, video_title, video_description, video_tags)
 
             # Clean up the local video file after upload
-            os.remove(output_video_path)
-            print(f"Removed local video file: {output_video_path}")
+            try:
+                os.remove(output_video_path)
+                log.info(f"Removed local video file: {output_video_path}")
+            except OSError as e:
+                log.error(f"Error removing local video file: {e}")
         else:
-            print("Video compilation failed. Cannot upload.")
+            log.error("Video compilation failed. Cannot upload.")
     else:
-        print("No media fetched from any source. Exiting.")
+        log.warning("No media fetched from any source. Exiting.")
 
-    print("Content Grinder finished.")
+    log.info("Content Grinder finished.")
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,5 @@
 import json
+from src.logger import log
 
 # NOTE: TikTok scraping is highly unstable due to TikTok's anti-scraping measures.
 # The libraries and methods for this can change frequently and may require manual
@@ -18,18 +19,15 @@ class TikTokScraper:
 
         tiktok_config = config.get('tiktok', {})
         self.accounts = tiktok_config.get('accounts', [])
-        print("Initialized placeholder TikTok scraper.")
+        log.info("Initialized placeholder TikTok scraper.")
 
     def get_media(self):
         """
         This is a placeholder function. A real implementation would query the
         TikTok API or use a web scraper to fetch video URLs from the specified accounts.
         """
-        print("\n---")
-        print("NOTICE: The TikTok scraper is currently a placeholder.")
-        print("This function does not fetch real data from TikTok.")
-        print("To make this work, you would need to integrate a functional, third-party TikTok scraping library.")
-        print("---\n")
+        log.warning("The TikTok scraper is currently a placeholder and does not fetch real data.")
+        log.warning("To implement this, you would need to integrate a functional, third-party TikTok scraping library.")
 
         # Example of what the logic might look like with a hypothetical working library:
         #
@@ -39,12 +37,12 @@ class TikTokScraper:
         # try:
         #     api = TikTokAPI() # Potentially with authentication
         #     for account in self.accounts:
-        #         print(f"Scraping TikTok account: {account}")
+        #         log.info(f"Scraping TikTok account: {account}")
         #         videos = api.get_videos_by_user(account, count=10)
         #         for video in videos:
         #             media_urls.append(video['downloadURL'])
         # except Exception as e:
-        #     print(f"Failed to scrape TikTok account {account}. Error: {e}")
+        #     log.error(f"Failed to scrape TikTok account {account}. Error: {e}")
         #
         # return media_urls
 
@@ -52,5 +50,6 @@ class TikTokScraper:
 
 if __name__ == '__main__':
     # This is for testing the scraper directly
+    log.info("Testing TikTokScraper directly...")
     scraper = TikTokScraper()
     scraper.get_media()

@@ -2,6 +2,7 @@ import praw
 import json
 import configparser
 import os
+from src.logger import log
 
 class RedditScraper:
     def __init__(self, config_path='config.json'):
@@ -24,18 +25,19 @@ class RedditScraper:
                 username=praw_config['bot1']['username'],
                 password=praw_config['bot1']['password']
             )
+            log.info("PRAW initialized successfully.")
         except Exception as e:
-            print(f"Could not initialize PRAW. Please ensure a valid 'credentials/praw.ini' file exists. Error: {e}")
+            log.error(f"Could not initialize PRAW. Please ensure a valid 'credentials/praw.ini' file exists. Error: {e}")
             self.reddit = None
 
     def get_media(self):
         if not self.reddit:
-            print("PRAW not initialized. Cannot fetch media.")
+            log.error("PRAW not initialized. Cannot fetch media.")
             return []
 
         media_urls = []
         for subreddit_name in self.subreddits:
-            print(f"Scraping subreddit: r/{subreddit_name}")
+            log.info(f"Scraping subreddit: r/{subreddit_name}")
             subreddit = self.reddit.subreddit(subreddit_name)
             try:
                 hot_posts = subreddit.top(time_filter=self.timeframe, limit=self.limit)
@@ -50,17 +52,19 @@ class RedditScraper:
                                 # This URL is typically video-only. Split to remove query params.
                                 media_urls.append(post.media['reddit_video']['fallback_url'].split('?')[0])
             except Exception as e:
-                print(f"Could not scrape subreddit {subreddit_name}. Error: {e}")
+                log.error(f"Could not scrape subreddit {subreddit_name}. Error: {e}")
 
+        log.info(f"Found {len(media_urls)} media items from Reddit.")
         return media_urls
 
 if __name__ == '__main__':
     # This is for testing the scraper directly
+    log.info("Testing RedditScraper directly...")
     scraper = RedditScraper()
     media = scraper.get_media()
     if media:
-        print(f"Found {len(media)} media items.")
+        log.info(f"Found {len(media)} media items.")
         for url in media:
-            print(url)
+            log.info(f"  - {url}")
     else:
-        print("No media found or PRAW not configured.")
+        log.warning("No media found or PRAW not configured.")

@@ -5,6 +5,7 @@ import google_auth_oauthlib.flow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from google.auth.transport.requests import Request
+from src.logger import log
 
 # This scope allows for full access to the user's YouTube account.
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
@@ -27,16 +28,19 @@ class YouTubeUploader:
         credentials = None
         if os.path.exists(self.credentials_file):
             credentials = google.oauth2.credentials.Credentials.from_authorized_user_file(self.credentials_file, SCOPES)
+            log.info("Loaded YouTube credentials from file.")
 
         if not credentials or not credentials.valid:
             if credentials and credentials.expired and credentials.refresh_token:
+                log.info("Refreshing expired YouTube credentials.")
                 credentials.refresh(Request())
             else:
                 if not os.path.exists(self.client_secret_file):
-                    print(f"Error: YouTube client secret file not found at '{self.client_secret_file}'.")
-                    print("Please ensure it exists and is configured correctly.")
+                    log.error(f"YouTube client secret file not found at '{self.client_secret_file}'.")
+                    log.error("Please ensure it exists and is configured correctly.")
                     return None
 
+                log.info("Performing first-time YouTube authentication.")
                 flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(self.client_secret_file, SCOPES)
                 credentials = flow.run_console()
 
@@ -44,13 +48,14 @@ class YouTubeUploader:
             os.makedirs(self.credentials_dir, exist_ok=True)
             with open(self.credentials_file, 'w') as f:
                 f.write(credentials.to_json())
+            log.info(f"Saved new YouTube credentials to '{self.credentials_file}'.")
 
         return build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
     def upload_video(self, video_path, title, description, tags):
         youtube = self.get_authenticated_service()
         if not youtube:
-            print("Could not get authenticated YouTube service. Aborting upload.")
+            log.error("Could not get authenticated YouTube service. Aborting upload.")
             return
 
         body = {
@@ -66,7 +71,7 @@ class YouTubeUploader:
         }
 
         try:
-            print(f"Uploading video: {video_path}")
+            log.info(f"Uploading video '{video_path}' to YouTube...")
             insert_request = youtube.videos().insert(
                 part=','.join(body.keys()),
                 body=body,
@@ -74,27 +79,21 @@ class YouTubeUploader:
             )
 
             response = insert_request.execute()
-            print(f"Video uploaded successfully! Video ID: {response['id']}")
+            log.info(f"Video uploaded successfully! Video ID: {response['id']}")
             return response['id']
         except HttpError as e:
-            print(f"An HTTP error {e.resp.status} occurred: {e.content}")
+            log.error(f"An HTTP error {e.resp.status} occurred during upload: {e.content}")
             return None
         except Exception as e:
-            print(f"An error occurred during upload: {e}")
+            log.error(f"An unexpected error occurred during upload: {e}")
             return None
 
 if __name__ == '__main__':
-    # Example usage:
-    # 1. Make sure your 'config.json' points to your client_secret.json
-    # 2. Run this script once to authorize.
-    # 3. Then you can call the upload_video method.
+    # This is for testing the uploader directly.
+    log.info("Testing YouTubeUploader module...")
     uploader = YouTubeUploader()
-    # You would call it like this:
-    # uploader.upload_video("final_video.mp4", "My Awesome Compilation", "A video of cool stuff.", ["compilation", "memes"])
-    print("YouTube Uploader module loaded. Run from main.py to upload a video.")
-    # Test authentication
     service = uploader.get_authenticated_service()
     if service:
-        print("Successfully authenticated with YouTube.")
+        log.info("Successfully authenticated with YouTube.")
     else:
-        print("Failed to authenticate with YouTube.")
+        log.error("Failed to authenticate with YouTube.")

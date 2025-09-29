@@ -1,0 +1,22 @@
+{
+  "reddit": {
+    "enabled": true,
+    "subreddits": [
+      "memes",
+      "dankmemes"
+    ],
+    "limit": 10,
+    "timeframe": "day"
+  },
+  "twitter": {
+    "enabled": false,
+    "accounts": []
+  },
+  "tiktok": {
+    "enabled": false,
+    "accounts": []
+  },
+  "youtube": {
+    "client_secret_file": "client_secret.json"
+  }
+}

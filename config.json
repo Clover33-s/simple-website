@@ -1,16 +1,23 @@
 {
-  "reddit": {
+  "llm_generator": {
     "enabled": true,
+    "api_key": "YOUR_OPENAI_API_KEY",
+    "model": "gpt-4o-mini",
+    "theme": "A series of surreal images featuring animals playing musical instruments in space.",
+    "prompt_count": 5
+  },
+  "stability_ai": {
+    "enabled": true,
+    "api_key": "YOUR_STABILITY_AI_API_KEY"
+  },
+  "reddit": {
+    "enabled": false,
     "subreddits": [
       "memes",
       "dankmemes"
     ],
     "limit": 10,
     "timeframe": "day"
-  },
-  "twitter": {
-    "enabled": false,
-    "accounts": []
   },
   "tiktok": {
     "enabled": false,

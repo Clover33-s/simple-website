@@ -41,8 +41,9 @@ class YouTubeUploader:
                     return None
 
                 log.info("Performing first-time YouTube authentication.")
+                log.info("Please follow the link provided in the console to authorize the application.")
                 flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(self.client_secret_file, SCOPES)
-                credentials = flow.run_local_server()
+                credentials = flow.run_local_server(open_browser=False)
 
             # Ensure the credentials directory exists before writing the file
             os.makedirs(self.credentials_dir, exist_ok=True)

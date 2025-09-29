@@ -17,8 +17,11 @@ class YouTubeUploader:
             config = json.load(f)
 
         youtube_config = config.get('youtube', {})
-        self.client_secret_file = youtube_config.get('client_secret_file')
-        self.credentials_file = 'youtube_credentials.json'
+        # Prepend the credentials directory to the file paths
+        self.credentials_dir = 'credentials'
+        client_secret_filename = youtube_config.get('client_secret_file', 'client_secret.json')
+        self.client_secret_file = os.path.join(self.credentials_dir, client_secret_filename)
+        self.credentials_file = os.path.join(self.credentials_dir, 'youtube_credentials.json')
 
     def get_authenticated_service(self):
         credentials = None
@@ -29,13 +32,16 @@ class YouTubeUploader:
             if credentials and credentials.expired and credentials.refresh_token:
                 credentials.refresh(Request())
             else:
-                if not self.client_secret_file or not os.path.exists(self.client_secret_file):
-                    print("Error: YouTube client secret file not found. Please configure it in config.json.")
+                if not os.path.exists(self.client_secret_file):
+                    print(f"Error: YouTube client secret file not found at '{self.client_secret_file}'.")
+                    print("Please ensure it exists and is configured correctly.")
                     return None
 
                 flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(self.client_secret_file, SCOPES)
-                credentials = flow.run_console() # Changed from run_local_server to be more friendly for terminal-based apps
+                credentials = flow.run_console()
 
+            # Ensure the credentials directory exists before writing the file
+            os.makedirs(self.credentials_dir, exist_ok=True)
             with open(self.credentials_file, 'w') as f:
                 f.write(credentials.to_json())
 

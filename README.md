@@ -12,39 +12,28 @@ Content Grinder is a Python-based bot that automates the process of creating and
 
 **NOTE on Other Platforms (TikTok, Twitter, etc.)**: This project includes a *non-functional placeholder* for a TikTok scraper to demonstrate its extensible design. Scraping modern, Javascript-heavy platforms like TikTok is a complex and volatile task that typically requires using unofficial, reverse-engineered API libraries which can be unstable and require frequent updates. A similar approach would be needed to implement a scraper for Twitter.
 
-## Getting Started
+## Installation and Setup
 
-Follow these instructions to get your Content Grinder up and running.
+### Step 1: Clone the Repository
 
-### 1. Prerequisites
+```bash
+git clone <repository_url>
+cd <repository_directory>
+```
 
-- Python 3.7+
-- `pip` for package installation
+### Step 2: Configure Credentials
 
-### 2. Installation
+This application requires API credentials for both Reddit and YouTube. All credential files must be placed inside the `credentials/` directory.
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository_url>
-    cd <repository_directory>
-    ```
+#### A. Reddit API Credentials
 
-2.  **Install the required Python packages:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-### 3. Configuration
-
-Before running the bot, you need to configure your API keys and settings in the `config.json` and `praw.ini` files.
-
-#### A. Reddit API Credentials (`praw.ini`)
-
-1.  Rename the `praw.ini.example` file to `praw.ini`.
-2.  Follow the instructions in the [PRAW documentation](https://praw.readthedocs.io/en/latest/getting_started/authentication.html) to obtain your Reddit API credentials for a "script" application.
-3.  Fill in your credentials in `praw.ini`. The `user_agent` must be a unique and descriptive string (it's good practice to include your Reddit username).
+1.  Navigate to the `credentials/` directory.
+2.  Rename `praw.ini.example` to `praw.ini`.
+3.  Follow the instructions in the [PRAW documentation](https://praw.readthedocs.io/en/latest/getting_started/authentication.html) to get your API credentials for a "script" application.
+4.  Fill in your details in `credentials/praw.ini`. The `user_agent` must be a unique and descriptive string.
 
     ```ini
+    # credentials/praw.ini
     [bot1]
     client_id=YOUR_CLIENT_ID
     client_secret=YOUR_CLIENT_SECRET
@@ -53,40 +42,69 @@ Before running the bot, you need to configure your API keys and settings in the 
     user_agent=ContentGrinder bot by u/yourusername
     ```
 
-#### B. YouTube API Credentials (`client_secret.json`)
+#### B. YouTube API Credentials
 
-1.  Go to the [Google Cloud Console](https://console.cloud.google.com/).
-2.  Create a new project.
-3.  Search for and enable the **YouTube Data API v3**.
-4.  From the navigation menu, go to **APIs & Services** -> **Credentials**.
-5.  Click **+ CREATE CREDENTIALS** and select **OAuth client ID**.
-6.  Choose **Desktop app** for the application type and give it a name.
-7.  Click **CREATE**. From the list of OAuth 2.0 Client IDs, find your newly created credential and click the **Download JSON** icon.
-8.  Rename the downloaded file to `client_secret.json` and place it in the root directory of this project.
+1.  Follow the steps below to download your OAuth 2.0 client secrets file from the Google Cloud Console.
+    1.  Go to the [Google Cloud Console](https://console.cloud.google.com/).
+    2.  Create a new project.
+    3.  Search for and enable the **YouTube Data API v3**.
+    4.  From the navigation menu, go to **APIs & Services** -> **Credentials**.
+    5.  Click **+ CREATE CREDENTIALS** and select **OAuth client ID**.
+    6.  Choose **Desktop app** for the application type and give it a name.
+    7.  Click **CREATE**. From the list of OAuth 2.0 Client IDs, find your newly created credential and click the **Download JSON** icon.
+2.  Rename the downloaded file to `client_secret.json`.
+3.  Move the `client_secret.json` file into the `credentials/` directory.
 
-#### C. Main Configuration (`config.json`)
+### Step 3: Choose Your Execution Method
 
-Open the `config.json` file to customize the scrapers and other settings:
+You can run this application using Docker (recommended) or directly with Python.
 
--   **`reddit`**:
-    -   `"enabled"`: Set to `true` to scrape from Reddit.
-    -   `"subreddits"`: A list of subreddits to scrape from (e.g., `"memes"`, `"funny"`).
-    -   `"limit"`: The number of top posts to fetch from each subreddit.
-    -   `"timeframe"`: The time filter for top posts (e.g., `"day"`, `"week"`, `"all"`).
--   **`tiktok`**:
-    -   `"enabled"`: Set to `false`. This is a non-functional placeholder.
--   **`youtube`**:
-    -   `"client_secret_file"`: The path to your YouTube OAuth credentials file. Defaults to `client_secret.json`.
+---
 
-### 4. Running the Bot
+### Option 1: Running with Docker (Recommended)
 
-Once everything is configured, you can run the bot from your terminal:
+This method handles all Python and system dependencies for you.
 
+**Prerequisites:**
+- [Docker](https://www.docker.com/get-started) installed on your system.
+
+**1. Build the Docker Image:**
+
+From the project's root directory, run:
+```bash
+docker build -t content-grinder .
+```
+
+**2. Run the Docker Container:**
+
+This command runs the bot and mounts your `credentials` directory into the container. This allows the application to use your API keys and, on the first run, save the YouTube authentication token back to your host machine.
+
+```bash
+docker run --rm -it -v "$(pwd)/credentials:/app/credentials" content-grinder
+```
+
+**First-time YouTube Authentication:** When you run the container for the first time, the application will pause and display a URL in your terminal. Copy this URL, paste it into your browser, and complete the authorization process. A `youtube_credentials.json` file will be created in your `credentials` directory, which will be used for all future runs.
+
+---
+
+### Option 2: Running Locally with Python
+
+**Prerequisites:**
+- Python 3.7+
+- `pip` for package installation
+
+**1. Install Dependencies:**
+
+```bash
+pip install -r requirements.txt
+```
+
+**2. Run the Bot:**
+
+Make sure you have completed the credential setup in Step 2. Then, run the application:
 ```bash
 python main.py
 ```
-
-**First-time Run for YouTube:** The first time you run the script, you will be prompted to authorize the application. A URL will be displayed in the console. Copy and paste it into your browser, choose your Google account, and grant the necessary permissions. After authorization, the script will continue, and a `youtube_credentials.json` file will be created to store your tokens for future runs.
 
 ## How It Works
 

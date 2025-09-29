@@ -1,5 +1,7 @@
 import praw
 import json
+import configparser
+import os
 
 class RedditScraper:
     def __init__(self, config_path='config.json'):
@@ -12,12 +14,18 @@ class RedditScraper:
         self.timeframe = reddit_config.get('timeframe', 'day')
 
         try:
-            # PRAW will automatically look for a praw.ini file in the current directory
-            # and use the "bot1" section to configure the instance.
-            # The user_agent should be set in that file.
-            self.reddit = praw.Reddit("bot1")
+            praw_config = configparser.ConfigParser()
+            praw_config.read('credentials/praw.ini')
+
+            self.reddit = praw.Reddit(
+                client_id=praw_config['bot1']['client_id'],
+                client_secret=praw_config['bot1']['client_secret'],
+                user_agent=praw_config['bot1']['user_agent'],
+                username=praw_config['bot1']['username'],
+                password=praw_config['bot1']['password']
+            )
         except Exception as e:
-            print(f"Could not initialize PRAW. Please check your praw.ini or environment variables. Error: {e}")
+            print(f"Could not initialize PRAW. Please ensure a valid 'credentials/praw.ini' file exists. Error: {e}")
             self.reddit = None
 
     def get_media(self):

@@ -43,18 +43,29 @@ This application requires API keys from OpenAI, Stability AI, and Google (for Yo
 
 #### B. YouTube API Credentials
 
-1.  **Download Credentials:**
-    1.  Go to the [Google Cloud Console](https://console.cloud.google.com/).
-    2.  Create a new project and enable the **YouTube Data API v3**.
-    3.  Create an **OAuth client ID** for a **Desktop app**.
-    4.  Download the JSON file.
-2.  **Add Your Account as a Test User (Crucial Step):**
-    -   In the Google Cloud Console, navigate to the **OAuth consent screen** for your project.
-    -   Under the **"Test users"** section, click **+ ADD USERS**.
-    -   Enter the Google email address you will use to log in and upload videos.
-    -   Click **SAVE**. You must do this to authorize your own account to use the app while it's in "Testing" mode.
+1.  **Configure the OAuth Consent Screen (Crucial Step):**
+    -   Go to the [Google Cloud Console](https://console.cloud.google.com/) and select your project.
+    -   From the navigation menu, go to **APIs & Services -> OAuth consent screen**.
+    -   For **User Type**, select **External** and click **CREATE**.
+    -   On the next page, fill out the required fields:
+        -   **App name:** Give your app a name (e.g., "AI Content Bot").
+        -   **User support email:** Select your email address.
+        -   **Developer contact information:** Enter your email address again at the bottom of the page.
+    -   Click **SAVE AND CONTINUE** through the "Scopes" and "Optional info" sections. You don't need to add anything here.
+    -   Back on the dashboard, under **Publishing status**, ensure it says "Testing".
 
-3.  **Place Credentials File:**
+2.  **Add Your Account as a Test User:**
+    -   While still on the **OAuth consent screen**, under the **"Test users"** section, click **+ ADD USERS**.
+    -   Enter the Google email address you will use to log in and upload videos.
+    -   Click **SAVE**. You must do this to authorize your own account to use the app.
+
+3.  **Create and Download Credentials:**
+    -   Now, go to the **Credentials** tab from the side menu.
+    -   Click **+ CREATE CREDENTIALS** and select **OAuth client ID**.
+    -   Choose **Desktop app** for the application type and give it a name.
+    -   Click **CREATE**. From the list of OAuth 2.0 Client IDs, find your newly created credential and click the **Download JSON** icon.
+
+4.  **Place Credentials File:**
     -   Rename the downloaded credentials JSON file to `client_secret.json`.
     -   Move this file into the `credentials/` directory.
 

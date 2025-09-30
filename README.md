@@ -64,20 +64,17 @@ docker build -t content-grinder .
 ```
 
 **2. Run the Docker Container:**
-This command runs the bot and mounts your config files into the container. This ensures the bot uses your latest settings and can save authentication tokens.
+This command runs the bot, forwards the necessary port for authentication, and mounts your config files. This ensures the bot uses your latest settings and can save authentication tokens.
 
 ```bash
-docker run --rm -it -v "$(pwd)/config.json:/app/config.json" -v "$(pwd)/credentials:/app/credentials" content-grinder
+docker run --rm -it -p 8080:8080 -v "$(pwd)/config.json:/app/config.json" -v "$(pwd)/credentials:/app/credentials" content-grinder
 ```
 
 **First-time YouTube Authentication:**
-When you run the bot for the first time, you will need to authorize it to access your YouTube account. The process is manual and works as follows:
-1.  The application will print a long URL to the console. Copy this URL.
-2.  Paste the URL into your web browser and log in to your Google account.
-3.  Grant the application permission to upload videos on your behalf.
-4.  After granting permission, your browser will redirect to a page that may show a "This site can’t be reached" error. **This is expected.** The important part is the URL in your browser's address bar.
-5.  Look for the part of the URL that says `code=`. Copy the long string of characters that comes **immediately after** `code=` and before the `&scope=` part.
-6.  Paste this code into the terminal when prompted for the "authorization code".
+When you run the container for the first time, you will need to authorize it to access your YouTube account:
+1.  The application will print a long URL to the console. Copy this URL and paste it into your web browser.
+2.  Log in to your Google account and grant the application permission.
+3.  Once authorized, you will be redirected to a page confirming that the authentication flow has completed. You can then close the browser tab. The application will continue running automatically.
 
 A `youtube_credentials.json` file will be created in your `credentials` directory. You will only need to do this once.
 

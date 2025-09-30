@@ -41,20 +41,10 @@ class YouTubeUploader:
                     return None
 
                 log.info("Performing first-time YouTube authentication.")
+                log.info("Please follow the link provided in the console to authorize the application.")
                 flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(self.client_secret_file, SCOPES)
-
-                # Generate the authorization URL
-                auth_url, _ = flow.authorization_url(prompt='consent')
-
-                log.info("Please go to this URL to authorize the application:")
-                log.info(auth_url)
-
-                # Get the authorization code from the user
-                code = input("Enter the authorization code from the redirect URL: ")
-
-                # Exchange the code for a token
-                flow.fetch_token(code=code)
-                credentials = flow.credentials
+                # The host='0.0.0.0' is crucial for making the server accessible from outside the Docker container.
+                credentials = flow.run_local_server(host='0.0.0.0', open_browser=False)
 
             # Ensure the credentials directory exists before writing the file
             os.makedirs(self.credentials_dir, exist_ok=True)

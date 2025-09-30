@@ -48,8 +48,14 @@ This application requires API keys from OpenAI, Stability AI, and Google (for Yo
     2.  Create a new project and enable the **YouTube Data API v3**.
     3.  Create an **OAuth client ID** for a **Desktop app**.
     4.  Download the JSON file.
-2.  **Place Credentials:**
-    -   Rename the downloaded file to `client_secret.json`.
+2.  **Add Your Account as a Test User (Crucial Step):**
+    -   In the Google Cloud Console, navigate to the **OAuth consent screen** for your project.
+    -   Under the **"Test users"** section, click **+ ADD USERS**.
+    -   Enter the Google email address you will use to log in and upload videos.
+    -   Click **SAVE**. You must do this to authorize your own account to use the app while it's in "Testing" mode.
+
+3.  **Place Credentials File:**
+    -   Rename the downloaded credentials JSON file to `client_secret.json`.
     -   Move this file into the `credentials/` directory.
 
 ### Step 3: Choose Your Execution Method

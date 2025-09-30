@@ -59,13 +59,20 @@ This application requires API keys from OpenAI, Stability AI, and Google (for Yo
     -   Enter the Google email address you will use to log in and upload videos.
     -   Click **SAVE**. You must do this to authorize your own account to use the app.
 
-3.  **Create and Download Credentials:**
+3.  **Create OAuth Client ID:**
     -   Now, go to the **Credentials** tab from the side menu.
     -   Click **+ CREATE CREDENTIALS** and select **OAuth client ID**.
     -   Choose **Desktop app** for the application type and give it a name.
-    -   Click **CREATE**. From the list of OAuth 2.0 Client IDs, find your newly created credential and click the **Download JSON** icon.
+    -   Click **CREATE**. This will take you to a page with your client ID and secret.
 
-4.  **Place Credentials File:**
+4.  **Configure Redirect URI (CRUCIAL FINAL STEP):**
+    -   On the **Credentials** page, click the name of the Client ID you just created to edit it.
+    -   Under the **"Authorized redirect URIs"** section, click **+ ADD URI**.
+    -   In the text box that appears, enter exactly: `http://localhost:8080/`
+    -   Click **SAVE** at the bottom of the page. This tells Google that it is safe to send the authentication token back to the application running on your computer.
+
+5.  **Download and Place Credentials File:**
+    -   After saving the redirect URI, click the **DOWNLOAD JSON** button at the top of the page.
     -   Rename the downloaded credentials JSON file to `client_secret.json`.
     -   Move this file into the `credentials/` directory.
 

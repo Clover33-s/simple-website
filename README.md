@@ -81,6 +81,8 @@ When you run the bot for the first time, you will need to authorize it to access
 
 A `youtube_credentials.json` file will be created in your `credentials` directory. You will only need to do this once.
 
+**Note on Debugging:** During this first-time authentication, you will see detailed log messages from the Google API libraries in your console. This is intentional and provides verbose information that can be helpful for debugging if you encounter any issues.
+
 ---
 
 ### Option 2: Running Locally with Python

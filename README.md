@@ -64,10 +64,10 @@ docker build -t content-grinder .
 ```
 
 **2. Run the Docker Container:**
-This command runs the bot and mounts both your `config.json` and `credentials` directory into the container. This ensures the bot uses your latest settings and can save authentication tokens.
+This command runs the bot, forwards the necessary port for authentication, and mounts your config files. This ensures the bot uses your latest settings and can save authentication tokens.
 
 ```bash
-docker run --rm -it -v "$(pwd)/config.json:/app/config.json" -v "$(pwd)/credentials:/app/credentials" content-grinder
+docker run --rm -it -p 8080:8080 -v "$(pwd)/config.json:/app/config.json" -v "$(pwd)/credentials:/app/credentials" content-grinder
 ```
 
 **First-time YouTube Authentication:** When you run the container for the first time, you will be prompted in the terminal to visit a URL to authorize the application. After you grant permission, a `youtube_credentials.json` file will be created in your `credentials` directory for future runs.

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - My Awesome App</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- App container -->
+    <div class="flex flex-col min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-gray-900">My Awesome App</h1>
+                    <nav>
+                        <a href="index.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="social.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Social</a>
+                        <a href="videos.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Videos</a>
+                        <a href="shop.html" class="text-indigo-600 font-semibold px-3 py-2 rounded-md text-sm">Shop</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto p-8">
+            <h2 class="text-3xl font-bold mb-6 text-center">Online Shop</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-gray-200 h-48 flex items-center justify-center">
+                        <p>Product Image</p>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">Cool Gadget</h3>
+                        <p class="text-gray-600">$49.99</p>
+                        <button class="mt-4 w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 transition duration-300">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 2 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-gray-200 h-48 flex items-center justify-center">
+                        <p>Product Image</p>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">Awesome Widget</h3>
+                        <p class="text-gray-600">$29.99</p>
+                        <button class="mt-4 w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 transition duration-300">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 3 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-gray-200 h-48 flex items-center justify-center">
+                        <p>Product Image</p>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">Fancy Gizmo</h3>
+                        <p class="text-gray-600">$99.99</p>
+                        <button class="mt-4 w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 transition duration-300">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                 <!-- Product 4 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-gray-200 h-48 flex items-center justify-center">
+                        <p>Product Image</p>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">Shiny Thing</h3>
+                        <p class="text-gray-600">$19.99</p>
+                        <button class="mt-4 w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 transition duration-300">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white mt-auto">
+            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+                <p>&copy; 2025 My Awesome App. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const addToCartButtons = document.querySelectorAll('button');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                alert('Added to cart!');
+            });
+        });
+    </script>
+
+</body>
+</html>

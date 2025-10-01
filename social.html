@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Feed - My Awesome App</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- App container -->
+    <div class="flex flex-col min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-gray-900">My Awesome App</h1>
+                    <nav>
+                        <a href="index.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="social.html" class="text-indigo-600 font-semibold px-3 py-2 rounded-md text-sm">Social</a>
+                        <a href="videos.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Videos</a>
+                        <a href="shop.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Shop</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto p-8">
+            <div class="max-w-2xl mx-auto">
+                <!-- Create a new post -->
+                <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+                    <h2 class="text-2xl font-bold mb-4">Create a Post</h2>
+                    <textarea class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="What's on your mind?"></textarea>
+                    <button class="mt-4 bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 transition duration-300">
+                        Post
+                    </button>
+                </div>
+
+                <!-- Social Feed -->
+                <div id="social-feed">
+                    <h2 class="text-3xl font-bold mb-6 text-center">Social Feed</h2>
+                    <!-- Post 1 -->
+                    <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+                        <div class="flex items-center mb-4">
+                            <img class="w-12 h-12 rounded-full mr-4" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Avatar">
+                            <div>
+                                <h3 class="font-bold text-lg">Jane Doe</h3>
+                                <p class="text-gray-500 text-sm">2 hours ago</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700">Just enjoying a beautiful day at the park! 🌳☀️ #nature #blessed</p>
+                    </div>
+                    <!-- Post 2 -->
+                    <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+                        <div class="flex items-center mb-4">
+                            <img class="w-12 h-12 rounded-full mr-4" src="https://i.pravatar.cc/150?u=a042581f4e29026704e" alt="Avatar">
+                            <div>
+                                <h3 class="font-bold text-lg">John Smith</h3>
+                                <p class="text-gray-500 text-sm">5 hours ago</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700">Excited to announce my new project! Stay tuned for more updates. #tech #innovation</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white mt-auto">
+            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+                <p>&copy; 2025 My Awesome App. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const postButton = document.querySelector('button');
+        const postTextarea = document.querySelector('textarea');
+        const socialFeed = document.getElementById('social-feed');
+
+        postButton.addEventListener('click', () => {
+            const postContent = postTextarea.value;
+            if (postContent.trim() === '') return;
+
+            const newPost = document.createElement('div');
+            newPost.className = 'bg-white p-6 rounded-lg shadow-lg mb-6';
+            newPost.innerHTML = `
+                <div class="flex items-center mb-4">
+                    <img class="w-12 h-12 rounded-full mr-4" src="https://i.pravatar.cc/150?u=a042581f4e29026704f" alt="Avatar">
+                    <div>
+                        <h3 class="font-bold text-lg">You</h3>
+                        <p class="text-gray-500 text-sm">Just now</p>
+                    </div>
+                </div>
+                <p class="text-gray-700">${postContent}</p>
+            `;
+
+            socialFeed.insertBefore(newPost, socialFeed.children[1]);
+            postTextarea.value = '';
+        });
+    </script>
+
+</body>
+</html>

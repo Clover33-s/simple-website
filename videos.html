@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Web Application</title>
+    <title>Video Feed - My Awesome App</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter -->
@@ -30,7 +30,7 @@
                     <nav>
                         <a href="index.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
                         <a href="social.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Social</a>
-                        <a href="videos.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Videos</a>
+                        <a href="videos.html" class="text-indigo-600 font-semibold px-3 py-2 rounded-md text-sm">Videos</a>
                         <a href="shop.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Shop</a>
                     </nav>
                 </div>
@@ -38,16 +38,29 @@
         </header>
 
         <!-- Main Content -->
-        <main class="flex-grow container mx-auto p-8 text-center">
-            <div class="bg-white p-12 rounded-lg shadow-lg">
-                <h2 class="text-4xl font-bold mb-4">Welcome to Your New Application!</h2>
-                <p class="text-gray-600 text-lg mb-8">
-                    This is a clean, responsive starting point. You can easily build upon this foundation.
-                </p>
-                <button id="cta-button" class="bg-indigo-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 transition duration-300">
-                    Get Started
-                </button>
-                <p id="message" class="mt-6 text-green-600 font-medium"></p>
+        <main class="flex-grow container mx-auto p-8">
+            <div class="max-w-2xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-center">Video Feed</h2>
+                <!-- Video 1 -->
+                <div class="bg-white rounded-lg shadow-lg mb-6 overflow-hidden">
+                    <div class="bg-black flex items-center justify-center h-64">
+                        <p class="text-white">Video Placeholder</p>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">My Awesome Video</h3>
+                        <p class="text-gray-500 text-sm">Uploaded by Creator123</p>
+                    </div>
+                </div>
+                <!-- Video 2 -->
+                <div class="bg-white rounded-lg shadow-lg mb-6 overflow-hidden">
+                    <div class="bg-black flex items-center justify-center h-64">
+                         <p class="text-white">Video Placeholder</p>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">Another Great Clip</h3>
+                        <p class="text-gray-500 text-sm">Uploaded by User456</p>
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -59,19 +72,6 @@
         </footer>
 
     </div>
-
-    <!-- Simple JavaScript for interactivity -->
-    <script>
-        const ctaButton = document.getElementById('cta-button');
-        const message = document.getElementById('message');
-
-        ctaButton.addEventListener('click', () => {
-            message.textContent = 'Great! Thanks for clicking. You can now start adding features.';
-            setTimeout(() => {
-                message.textContent = '';
-            }, 5000);
-        });
-    </script>
 
 </body>
 </html>

@@ -118,3 +118,30 @@ Make sure you have completed the setup in Step 2. Then, run the application:
 ```bash
 python main.py
 ```
+
+## Troubleshooting
+
+### YouTube Authentication Issues
+
+If you are encountering repeated authentication errors (such as `400: invalid_request`) after following all the setup steps, you can use the standalone diagnostic script to isolate the problem. This script uses a manual copy-paste authentication flow that is more robust for debugging.
+
+**1. Run the Diagnostic Script:**
+
+Make sure you have installed the dependencies (`pip install -r requirements.txt`) and run the following command from the project's root directory:
+
+```bash
+python auth_test.py
+```
+
+**2. Follow the Manual Authentication Steps:**
+
+1.  The script will print a long URL to the console. Copy this URL.
+2.  Paste the URL into your web browser and log in to your Google account.
+3.  Grant the application permission to upload videos on your behalf.
+4.  After granting permission, your browser will redirect to a page that may show a "This site can’t be reached" error. **This is expected.** The important part is the URL in your browser's address bar.
+5.  Look for the part of the URL that says `code=`. Copy the long string of characters that comes **immediately after** `code=` and before the `&scope=` part.
+6.  Paste this code back into the terminal when prompted for the "authorization code".
+
+If the script runs successfully, it will print a "SUCCESS" message. This confirms your Google Cloud project is configured correctly, and a valid `youtube_credentials.json` file has been created. You can then try running the main application again.
+
+If the script fails, the error message will help pinpoint the exact issue in your Google Cloud project configuration. Please review all the steps in the "YouTube API Credentials" section carefully.

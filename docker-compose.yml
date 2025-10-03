@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    # The default command is defined in the Dockerfile,
+    # but this allows for overriding it easily, e.g., for specific analysis.
+    command: python main.py

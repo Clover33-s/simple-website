@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    ports:
+      - "5001:5001"
+    volumes:
+      - .:/usr/src/app
+    # Example for connecting to local databases from the container
+    # On Linux, use "host-gateway" for host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # Example MongoDB service
+  # mongo:
+  #   image: mongo:latest
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - mongo-data:/data/db
+
+  # Example MySQL service
+  # mysql:
+  #   image: mysql:8.0
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: rootpassword
+  #     MYSQL_DATABASE: mydatabase
+  #   volumes:
+  #     - mysql-data:/var/lib/mysql
+
+volumes:
+  mongo-data:
+  mysql-data:

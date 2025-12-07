@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telephone Translator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 20px;
+            height: 20px;
+            -webkit-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="max-w-2xl w-full bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-indigo-600 p-6 text-center">
+            <h1 class="text-3xl font-bold text-white">Telephone Translator</h1>
+            <p class="text-indigo-200 mt-2">Translate text through random languages and see the funny result!</p>
+        </div>
+
+        <div class="p-8">
+            <form id="translateForm" class="space-y-6">
+
+                <!-- Text Input -->
+                <div>
+                    <label for="text" class="block text-sm font-medium text-gray-700 mb-1">Text to Translate</label>
+                    <textarea
+                        id="text"
+                        name="text"
+                        rows="4"
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                        placeholder="Type something here..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Start Language -->
+                    <div>
+                        <label for="start_lang" class="block text-sm font-medium text-gray-700 mb-1">Start Language</label>
+                        <select id="start_lang" name="start_lang" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition bg-white">
+                            <option value="auto" selected>✨ Auto Detect</option>
+                            {% for name, code in languages.items() %}
+                                <option value="{{ code }}">{{ name|capitalize }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- End Language -->
+                    <div>
+                        <label for="end_lang" class="block text-sm font-medium text-gray-700 mb-1">End Language</label>
+                        <select id="end_lang" name="end_lang" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition bg-white">
+                            {% for name, code in languages.items() %}
+                                <option value="{{ code }}" {% if code == 'en' %}selected{% endif %}>{{ name|capitalize }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Number of Hops -->
+                <div>
+                    <label for="n" class="block text-sm font-medium text-gray-700 mb-1">Number of Random Languages (N)</label>
+                    <input
+                        type="number"
+                        id="n"
+                        name="n"
+                        min="1"
+                        max="20"
+                        value="5"
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                        required
+                    >
+                    <p class="text-xs text-gray-500 mt-1">Recommended: 3-10 for best results.</p>
+                </div>
+
+                <!-- Submit Button -->
+                <button
+                    type="submit"
+                    id="submitBtn"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center"
+                >
+                    <span id="btnText">Translate</span>
+                    <div id="loadingSpinner" class="spinner ml-3 hidden"></div>
+                </button>
+            </form>
+
+            <!-- Results -->
+            <div id="resultContainer" class="mt-8 hidden">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Result:</h3>
+                <div class="bg-gray-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+                    <p id="resultText" class="text-gray-800 text-lg italic"></p>
+                </div>
+
+                <div class="mt-4">
+                    <button
+                        id="toggleDetails"
+                        class="text-sm text-indigo-600 hover:text-indigo-800 font-medium focus:outline-none"
+                    >
+                        Show Path <i class="fas fa-chevron-down ml-1"></i>
+                    </button>
+                    <div id="pathDetails" class="hidden mt-2 text-xs text-gray-500 bg-gray-100 p-3 rounded">
+                        <p id="pathText" class="break-words leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error -->
+            <div id="errorContainer" class="mt-8 hidden">
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                    <p id="errorText" class="text-red-700"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('translateForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultText = document.getElementById('resultText');
+        const pathText = document.getElementById('pathText');
+        const errorContainer = document.getElementById('errorContainer');
+        const errorText = document.getElementById('errorText');
+        const toggleDetails = document.getElementById('toggleDetails');
+        const pathDetails = document.getElementById('pathDetails');
+
+        toggleDetails.addEventListener('click', () => {
+            pathDetails.classList.toggle('hidden');
+            const isHidden = pathDetails.classList.contains('hidden');
+            toggleDetails.innerHTML = isHidden ? 'Show Path <i class="fas fa-chevron-down ml-1"></i>' : 'Hide Path <i class="fas fa-chevron-up ml-1"></i>';
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Reset UI
+            resultContainer.classList.add('hidden');
+            errorContainer.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75');
+            btnText.textContent = 'Translating...';
+            loadingSpinner.classList.remove('hidden');
+
+            const text = document.getElementById('text').value;
+            const n = document.getElementById('n').value;
+            const start_lang = document.getElementById('start_lang').value;
+            const end_lang = document.getElementById('end_lang').value;
+
+            try {
+                const response = await fetch('/translate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text, n, start_lang, end_lang }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Something went wrong');
+                }
+
+                resultText.textContent = data.result;
+                pathText.textContent = data.path.join(' → ');
+                resultContainer.classList.remove('hidden');
+                pathDetails.classList.add('hidden'); // Hide path by default
+                toggleDetails.innerHTML = 'Show Path <i class="fas fa-chevron-down ml-1"></i>';
+
+            } catch (error) {
+                console.error(error);
+                errorText.textContent = error.message;
+                errorContainer.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75');
+                btnText.textContent = 'Translate';
+                loadingSpinner.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
